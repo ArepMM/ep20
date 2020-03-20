@@ -41,6 +41,7 @@ void MPCS::init()
 {
     taskPant = new TaskPant();
 
+    taskPant->setStoragePath(pathStorage);
     taskPant->init();
 
     auxConv = new AuxiliaryConverter();  
