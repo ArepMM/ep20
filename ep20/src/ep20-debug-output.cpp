@@ -16,7 +16,7 @@ void EP20::debugOutput(double t, double dt)
             .arg(10.0 * brakepipe->getPressure(), 6, 'f', 2)
             .arg(10.0 * brake_mech[TROLLEY_FWD]->getBCpressure(), 6, 'f', 2)
             .arg(10.0 * supply_reservoir->getPressure(), 6, 'f', 2);
-    DebugMsg += QString("pFL%1|pER%2|395:%3|254:%4%|")
+    DebugMsg += QString("pFL%1|pER%2|130:%3|224:%4%|")
             .arg(10.0 * main_reservoir->getPressure(), 6, 'f', 2)
             .arg(10.0 * brake_crane->getERpressure(), 6, 'f', 2)
             .arg(brake_crane->getPositionName(), 3)
