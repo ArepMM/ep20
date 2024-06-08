@@ -233,6 +233,12 @@ private:
     /// Инициализация КМБ2
     void initKMB2();
 
+    /// Предварительные расчёты перед симуляцией
+    void preStep(double t);
+
+    /// Предварительный расчёт координат сцепных устройств
+    void preStepCouplings(double t);
+
     /// Шаг моделирования всех систем локомотива в целом
     void step(double t, double dt);
 

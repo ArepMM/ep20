@@ -9,8 +9,13 @@ void EP20::stepBrakesEquipment(double t, double dt)
     double BP_flow = 0.0;
     BP_flow += air_dist->getBPflow();
     BP_flow += brake_crane->getBPflow();
+
+    anglecock_bp_fwd->setHoseFlow(hose_bp_fwd->getFlow());
     BP_flow += anglecock_bp_fwd->getFlowToPipe();
+
+    anglecock_bp_bwd->setHoseFlow(hose_bp_bwd->getFlow());
     BP_flow += anglecock_bp_bwd->getFlowToPipe();
+
     brakepipe->setFlow(BP_flow);
     brakepipe->step(t, dt);
 
@@ -46,8 +51,8 @@ void EP20::stepBrakesEquipment(double t, double dt)
 
     // Задняя тележка управляется от реле давления 304
     brake_mech[TROLLEY_BWD]->setBCflow(bc_pressure_relay[TROLLEY_BWD]->getPipeFlow());
-    brake_mech[TROLLEY_BWD]->setAngularVelocity(0, wheel_omega[5]);
-    brake_mech[TROLLEY_BWD]->setAngularVelocity(1, wheel_omega[6]);
+    brake_mech[TROLLEY_BWD]->setAngularVelocity(0, wheel_omega[4]);
+    brake_mech[TROLLEY_BWD]->setAngularVelocity(1, wheel_omega[5]);
     brake_mech[TROLLEY_BWD]->step(t, dt);
 
     Q_r[1] = brake_mech[TROLLEY_FWD]->getBrakeTorque(0);
@@ -61,17 +66,23 @@ void EP20::stepBrakesEquipment(double t, double dt)
 
     // Концевые краны тормозной магистрали
     anglecock_bp_fwd->setPipePressure(brakepipe->getPressure());
-    anglecock_bp_fwd->setHoseFlow(hose_bp_fwd->getFlow());
+    anglecock_bp_fwd->setControl(keys);
     anglecock_bp_fwd->step(t, dt);
     anglecock_bp_bwd->setPipePressure(brakepipe->getPressure());
-    anglecock_bp_bwd->setHoseFlow(hose_bp_bwd->getFlow());
+    anglecock_bp_bwd->setControl(keys);
     anglecock_bp_bwd->step(t, dt);
 
     // Рукава тормозной магистрали
     hose_bp_fwd->setPressure(anglecock_bp_fwd->getPressureToHose());
     hose_bp_fwd->setFlowCoeff(anglecock_bp_fwd->getFlowCoeff());
+    hose_bp_fwd->setCoord(railway_coord + dir * orient * (length / 2.0 - anglecock_bp_fwd->getShiftCoord()));
+    hose_bp_fwd->setShiftSide(anglecock_bp_fwd->getShiftSide());
+    hose_bp_fwd->setControl(keys);
     hose_bp_fwd->step(t, dt);
     hose_bp_bwd->setPressure(anglecock_bp_bwd->getPressureToHose());
     hose_bp_bwd->setFlowCoeff(anglecock_bp_bwd->getFlowCoeff());
+    hose_bp_bwd->setCoord(railway_coord - dir * orient * (length / 2.0 - anglecock_bp_bwd->getShiftCoord()));
+    hose_bp_bwd->setShiftSide(anglecock_bp_bwd->getShiftSide());
+    hose_bp_bwd->setControl(keys);
     hose_bp_bwd->step(t, dt);
 }
