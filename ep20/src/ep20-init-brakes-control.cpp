@@ -5,7 +5,7 @@
 //------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------
-void EP20::initBrakesControl(QString modules_dir)
+void EP20::initBrakesControl(const QString &modules_dir, const QString &custom_cfg_dir)
 {
     // Поездной кран машиниста
     brake_crane = loadBrakeCrane(
@@ -19,7 +19,7 @@ void EP20::initBrakesControl(QString modules_dir)
 
     // Переключательный клапан магистрали тормозных цилиндров
     bc_switch_valve = new SwitchingValve();
-    bc_switch_valve->read_custom_config(config_dir + QDir::separator() + "zpk");
+    bc_switch_valve->read_config("zpk", custom_cfg_dir);
 
     // Тройники
     bc_splitter[0] = new PneumoSplitter();

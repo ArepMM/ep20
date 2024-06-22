@@ -210,28 +210,28 @@ private:
     void initialization();
 
     /// Инициализация сцепных устройств
-    void initCouplings(QString modules_dir);
+    void initCouplings(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация высоковольтной схемы
-    void initHighVoltageScheme();
+    void initHighVoltageScheme(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация питательной магистрали
-    void initPneumoSupply(QString modules_dir);
+    void initPneumoSupply(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация приборов управления тормозами
-    void initBrakesControl(QString modules_dir);
+    void initBrakesControl(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация тормозного оборудования
-    void initBrakesEquipment(QString modules_dir);
+    void initBrakesEquipment(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация ЭПТ
-    void initEPB(QString modules_dir);
+    void initEPB(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация МПСУ
-    void initMPCS();
+    void initMPCS(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация КМБ2
-    void initKMB2();
+    void initKMB2(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Предварительные расчёты перед симуляцией
     void preStep(double t);

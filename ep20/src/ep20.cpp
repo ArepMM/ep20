@@ -43,61 +43,68 @@ EP20::~EP20()
 void EP20::initialization()
 {
     FileSystem &fs = FileSystem::getInstance();
-    QString modules_dir(fs.getModulesDir().c_str());
+    QString modules_dir = QString(fs.getModulesDir().c_str());
+    QString custom_cfg_dir(fs.getVehiclesDir().c_str());
+    custom_cfg_dir += fs.separator() + config_dir;
 
-    initCouplings(modules_dir);
+    initCouplings(modules_dir, custom_cfg_dir);
 
-    initMPCS();
+    initMPCS(modules_dir, custom_cfg_dir);
 
-    initHighVoltageScheme();
+    initHighVoltageScheme(modules_dir, custom_cfg_dir);
 
-    initPneumoSupply(modules_dir);
+    initPneumoSupply(modules_dir, custom_cfg_dir);
 
-    initBrakesControl(modules_dir);
+    initBrakesControl(modules_dir, custom_cfg_dir);
 
-    initBrakesEquipment(modules_dir);
+    initBrakesEquipment(modules_dir, custom_cfg_dir);
 
-    initEPB(modules_dir);
+    initEPB(modules_dir, custom_cfg_dir);
 
-    initKMB2();
+    initKMB2(modules_dir, custom_cfg_dir);
 }
 
 //------------------------------------------------------------------------------
 // Инициализация МПСУ
 //------------------------------------------------------------------------------
-void EP20::initMPCS()
+void EP20::initMPCS(const QString &modules_dir, const QString &custom_cfg_dir)
 {
+    (void) modules_dir;
+
     mpcs = new MPCS();
 
-    mpcs->read_custom_config(config_dir + QDir::separator() + "mpcs");
+    mpcs->read_config("mpcs", custom_cfg_dir);
 
-    mpcs->setStoragePath(config_dir + QDir::separator() + "storage" + QDir::separator());
+    mpcs->setStoragePath(custom_cfg_dir + QDir::separator() + "storage" + QDir::separator());
 
     mpcs->init();
 }
 
-
 //------------------------------------------------------------------------------
 // Инициализация КМБ2
 //------------------------------------------------------------------------------
-void EP20::initKMB2()
+void EP20::initKMB2(const QString &modules_dir, const QString &custom_cfg_dir)
 {
+    (void) modules_dir;
+
     kmb2 = new KMB2();
 
-    kmb2->read_custom_config(config_dir + QDir::separator() + "kmb2");
+    kmb2->read_config("kmb2", custom_cfg_dir);
 }
 
 //------------------------------------------------------------------------------
 // Инициализация высоковольтной схемы
 //------------------------------------------------------------------------------
-void EP20::initHighVoltageScheme()
+void EP20::initHighVoltageScheme(const QString &modules_dir, const QString &custom_cfg_dir)
 {
+    (void) modules_dir;
+
     // Вызываем цикл по числу пантографоф
     for (size_t i = 0; i < pantograph.size(); ++i)
     {
         pantograph[i] = new Pantograph();
         // Читаем конфиг
-        pantograph[i]->read_custom_config(config_dir + QDir::separator() + "pantograph");
+        pantograph[i]->read_config("pantograph", custom_cfg_dir);
     }
 
     kindSwitch = new CurrentKindSwitch();

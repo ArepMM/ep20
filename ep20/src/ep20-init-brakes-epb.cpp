@@ -5,9 +5,10 @@
 //------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------
-void EP20::initEPB(QString modules_dir)
+void EP20::initEPB(const QString &modules_dir, const QString &custom_cfg_dir)
 {
-    Q_UNUSED(modules_dir)
+    (void) modules_dir;
+    (void) custom_cfg_dir;
 
     // Преобразователь напряжения для ЭПТ
     epb_converter = new EPBConverter();
