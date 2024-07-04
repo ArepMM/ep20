@@ -206,6 +206,12 @@ private:
     /// Бесконтактный контроллер машиниста
     KMB2    *kmb2;
 
+    /// Свисток и тифон
+    TrainHorn   *horn;
+
+    /// Система подачи песка
+    SandingSystem   *sand_system;
+
     /// Инициализация
     void initialization();
 
@@ -232,6 +238,9 @@ private:
 
     /// Инициализация КМБ2
     void initKMB2(const QString &modules_dir, const QString &custom_cfg_dir);
+
+    /// Инициализация прочих устройств
+    void initOtherEquipment(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Предварительные расчёты перед симуляцией
     void preStep(double t);
@@ -265,6 +274,9 @@ private:
 
     /// Шаг моделирования бесконтактного контроллера машиниста
     void stepKMB2(double t, double dt);
+
+    /// Шаг моделирования прочих устройств
+    void stepOtherEquipment(double t, double dt);
 
     /// Вывод отладочной строки
     void debugOutput(double t, double dt);
