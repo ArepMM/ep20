@@ -22,10 +22,10 @@ void EP20::stepSignals()
     analogSignal[BLOK_TM_PRESS] = static_cast<float>(brakepipe->getPressure());
     analogSignal[BLOK_UR_PRESS] = static_cast<float>(brake_crane->getERpressure());
 
-    analogSignal[BLOK_RAILWAY_COORD] = static_cast<float>(railway_coord / 1000.0);
-    analogSignal[BLOK_VELOCITY] = static_cast<float>(velocity * Physics::kmh);
-    analogSignal[BLOK_VELOCITY_CURRENT_LIMIT] = 200.0f;
-    analogSignal[BLOK_VELOCITY_NEXT_LIMIT] = 200.0f;
+    analogSignal[BLOK_RAILWAY_COORD] = static_cast<float>(profile_point_data.railway_coord / 1000.0);
+    analogSignal[BLOK_VELOCITY] = static_cast<float>(wheel_omega[0] * wheel_diameter[0] / 2.0 * Physics::kmh);
+    analogSignal[BLOK_VELOCITY_CURRENT_LIMIT] = speedmap_fwd->getCurrentLimit();
+    analogSignal[BLOK_VELOCITY_NEXT_LIMIT] = speedmap_fwd->getNextLimit();
 
     analogSignal[PANTOGRAPH_AC1] = static_cast<float>(pantograph[PANT_AC1]->getHeight());
     analogSignal[PANTOGRAPH_DC1] = static_cast<float>(pantograph[PANT_DC1]->getHeight());
@@ -52,14 +52,14 @@ void EP20::stepSignals()
     analogSignal[sigLight_Test] = mpcsOutput.lamps_state.test.state;
     analogSignal[sigLight_Res_Purge] = mpcsOutput.lamps_state.res_purge.state;
 
-    analogSignal[LS_G4] = 0;
-    analogSignal[LS_G3] = 0;
-    analogSignal[LS_G2] = 0;
-    analogSignal[LS_G1] = 1;
-    analogSignal[LS_Y] = 0;
-    analogSignal[LS_RY] = 0;
-    analogSignal[LS_R] = 0;
-    analogSignal[LS_W] = 0;
+    analogSignal[LS_G4] = 0.0f;
+    analogSignal[LS_G3] = 0.0f;
+    analogSignal[LS_G2] = 0.0f;
+    analogSignal[LS_G1] = static_cast<float>(alsn_decoder->getCode() == ALSN::GREEN);
+    analogSignal[LS_Y] = static_cast<float>(alsn_decoder->getCode() == ALSN::YELLOW);
+    analogSignal[LS_RY] = static_cast<float>(alsn_decoder->getCode() == ALSN::RED_YELLOW);
+    analogSignal[LS_R] = 0.0f;
+    analogSignal[LS_W] = static_cast<float>(alsn_decoder->getCode() == ALSN::NO_CODE);
 
     analogSignal[CU] = mpcsOutput.control_switch;
     analogSignal[EPK] = 0;

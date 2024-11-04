@@ -63,6 +63,8 @@ void EP20::initialization()
 
     initKMB2(modules_dir, custom_cfg_dir);
 
+    initSafetyDevices(modules_dir, custom_cfg_dir);
+
     initOtherEquipment(modules_dir, custom_cfg_dir);
 }
 
@@ -153,6 +155,8 @@ void EP20::step(double t, double dt)
     stepEPB(t, dt);
 
     stepKMB2(t, dt);
+
+    stepSafetyDevices(t, dt);
 
     stepOtherEquipment(t, dt);
 

@@ -212,6 +212,19 @@ private:
     /// Система подачи песка
     SandingSystem   *sand_system;
 
+    /// Ограничения скорости на путевой инфраструктуре для кабины А
+    SpeedMap    *speedmap_fwd = Q_NULLPTR;
+    /// Ограничения скорости на путевой инфраструктуре для кабины Б
+    SpeedMap    *speedmap_bwd = Q_NULLPTR;
+
+    /// Приёмная катушка АЛСН для кабины А
+    CoilALSN    *coil_ALSN_fwd = Q_NULLPTR;
+    /// Приёмная катушка АЛСН для кабины Б
+    CoilALSN    *coil_ALSN_bwd = Q_NULLPTR;
+
+    /// Дешифратор сигнала АЛСН
+    DecoderALSN *alsn_decoder = Q_NULLPTR;
+
     /// Инициализация
     void initialization();
 
@@ -238,6 +251,9 @@ private:
 
     /// Инициализация КМБ2
     void initKMB2(const QString &modules_dir, const QString &custom_cfg_dir);
+
+    /// Инициализация устройств безопасности
+    void initSafetyDevices(const QString &modules_dir, const QString &custom_cfg_dir);
 
     /// Инициализация прочих устройств
     void initOtherEquipment(const QString &modules_dir, const QString &custom_cfg_dir);
@@ -274,6 +290,9 @@ private:
 
     /// Шаг моделирования бесконтактного контроллера машиниста
     void stepKMB2(double t, double dt);
+
+    /// Шаг моделирования устройств безопасности
+    void stepSafetyDevices(double t, double dt);
 
     /// Шаг моделирования прочих устройств
     void stepOtherEquipment(double t, double dt);
